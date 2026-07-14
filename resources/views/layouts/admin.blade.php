@@ -32,6 +32,7 @@
                 @can('viewAny', App\Models\User::class)
                     <a href="{{ route('admin.users.index') }}" class="block rounded px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('admin.users.*') ? 'bg-slate-800' : '' }}">Pengguna</a>
                 @endcan
+                <a href="{{ route('admin.help.index') }}" class="block rounded px-3 py-2 hover:bg-slate-800 {{ request()->routeIs('admin.help.*') ? 'bg-slate-800' : '' }}">Bantuan</a>
                 <a href="{{ route('home') }}" class="block rounded px-3 py-2 hover:bg-slate-800" target="_blank">Lihat Website</a>
             </nav>
         </aside>

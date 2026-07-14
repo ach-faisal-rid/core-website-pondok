@@ -9,6 +9,9 @@ use App\Livewire\Admin\Contacts\Show as ContactShow;
 use App\Livewire\Admin\Contents\Form as ContentForm;
 use App\Livewire\Admin\Contents\Index as ContentIndex;
 use App\Livewire\Admin\Dashboard;
+use App\Livewire\Admin\Help\Form as HelpForm;
+use App\Livewire\Admin\Help\Index as HelpIndex;
+use App\Livewire\Admin\Help\Manage as HelpManage;
 use App\Livewire\Admin\Downloads\Form as DownloadForm;
 use App\Livewire\Admin\Downloads\Index as DownloadIndex;
 use App\Livewire\Admin\Settings\Form as SettingsForm;
@@ -39,6 +42,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     Route::get('/contacts', ContactIndex::class)->name('contacts.index');
     Route::get('/contacts/{contactMessage}', ContactShow::class)->name('contacts.show');
+
+    Route::get('/bantuan', HelpIndex::class)->name('help.index');
+    Route::get('/bantuan/kelola', HelpManage::class)->name('help.manage');
+    Route::get('/bantuan/buat', HelpForm::class)->name('help.create');
+    Route::get('/bantuan/{helpArticle}/edit', HelpForm::class)->name('help.edit');
 
     Route::middleware('role:admin')->group(function () {
         Route::get('/users', UserIndex::class)->name('users.index');

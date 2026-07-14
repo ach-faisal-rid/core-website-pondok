@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\ContactMessage;
 use App\Models\Content;
 use App\Models\Download;
+use App\Models\HelpArticle;
 use App\Models\Setting;
 use App\Models\User;
 use App\Policies\AlbumPolicy;
@@ -14,6 +15,7 @@ use App\Policies\ArticlePolicy;
 use App\Policies\ContactMessagePolicy;
 use App\Policies\ContentPolicy;
 use App\Policies\DownloadPolicy;
+use App\Policies\HelpArticlePolicy;
 use App\Policies\SettingPolicy;
 use App\Policies\UserPolicy;
 use App\Services\SettingService;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        Gate::policy(HelpArticle::class, HelpArticlePolicy::class);
         Gate::policy(Setting::class, SettingPolicy::class);
         Gate::policy(Content::class, ContentPolicy::class);
         Gate::policy(Article::class, ArticlePolicy::class);

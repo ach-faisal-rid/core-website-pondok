@@ -103,5 +103,7 @@ class DatabaseSeeder extends Seeder
                 ]
             );
         }
+
+        $this->call(HelpArticleSeeder::class);
     }
 }
