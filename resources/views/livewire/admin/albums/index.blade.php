@@ -1,7 +1,7 @@
 <div>
     <x-admin.page-header title="Galeri Album">
         <x-slot:action>
-            <a href="{{ route('admin.albums.create') }}" class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Tambah Album</a>
+            <a href="{{ route('admin.albums.create') }}" class="admin-btn-primary">Tambah Album</a>
         </x-slot:action>
     </x-admin.page-header>
 

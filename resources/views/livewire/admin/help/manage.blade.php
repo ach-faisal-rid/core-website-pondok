@@ -1,7 +1,7 @@
 <div>
     <x-admin.page-header title="Kelola Bantuan">
         <x-slot:action>
-            <a href="{{ route('admin.help.create') }}" class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Tambah Item</a>
+            <a href="{{ route('admin.help.create') }}" class="admin-btn-primary">Tambah Item</a>
         </x-slot:action>
     </x-admin.page-header>
 

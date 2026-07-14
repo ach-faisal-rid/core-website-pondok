@@ -2,7 +2,7 @@
     <x-admin.page-header title="Bantuan & Panduan CMS">
         <x-slot:action>
             @can('create', App\Models\HelpArticle::class)
-                <a href="{{ route('admin.help.manage') }}" class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
+                <a href="{{ route('admin.help.manage') }}" class="admin-btn-primary">
                     Kelola Bantuan
                 </a>
             @endcan

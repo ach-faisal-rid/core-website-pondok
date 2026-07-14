@@ -5,9 +5,9 @@ namespace App\Livewire\Admin\Contacts;
 use App\Models\ContactMessage;
 use App\Support\WithSearch;
 use App\Support\WithSorting;
+use App\Support\WithToast;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
-use App\Support\WithToast;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,15 +15,23 @@ use Livewire\WithPagination;
 #[Title('Pesan Kontak')]
 class Index extends Component
 {
-    use WithToast;
-
     use WithPagination;
     use WithSearch;
     use WithSorting;
+    use WithToast;
+
+    public string $statusFilter = '';
 
     public function mount(): void
     {
         $this->authorize('viewAny', ContactMessage::class);
+        $this->sortField = 'created_at';
+        $this->sortDirection = 'desc';
+    }
+
+    public function updatedStatusFilter(): void
+    {
+        $this->resetPage();
     }
 
     public function markRead(int $id): void
@@ -55,9 +63,14 @@ class Index extends Component
                         ->orWhere('message', 'like', '%'.$this->search.'%');
                 });
             })
+            ->when($this->statusFilter === 'unread', fn ($query) => $query->where('is_read', false))
+            ->when($this->statusFilter === 'read', fn ($query) => $query->where('is_read', true))
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        return view('livewire.admin.contacts.index', compact('messages'));
+        return view('livewire.admin.contacts.index', [
+            'messages' => $messages,
+            'unreadCount' => ContactMessage::query()->where('is_read', false)->count(),
+        ]);
     }
 }

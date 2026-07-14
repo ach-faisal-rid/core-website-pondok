@@ -1,7 +1,7 @@
 <div>
     <x-admin.page-header title="File Download">
         <x-slot:action>
-            <a href="{{ route('admin.downloads.create') }}" class="rounded bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">Tambah File</a>
+            <a href="{{ route('admin.downloads.create') }}" class="admin-btn-primary">Tambah File</a>
         </x-slot:action>
     </x-admin.page-header>
 

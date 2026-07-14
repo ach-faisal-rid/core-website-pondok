@@ -53,13 +53,10 @@
                     </div>
                 </details>
 
-                <a href="{{ route('artikel.index') }}" class="hidden rounded-full p-2 text-pondok-800 hover:bg-pondok-50 sm:inline-flex" aria-label="Cari">
+                    <a href="{{ route('artikel.index') }}" class="hidden rounded-full p-2 text-pondok-800 hover:bg-pondok-50 sm:inline-flex" aria-label="Cari">
                     <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z" />
                     </svg>
-                </a>
-                <a href="{{ route('kontak') }}" class="rounded-full bg-pondok-800 px-3 py-2 text-xs font-semibold text-white hover:bg-pondok-900 sm:px-4 sm:text-sm">
-                    Daftar
                 </a>
             </div>
         </div>
@@ -71,8 +68,8 @@
 
     <footer @class([
         'bg-pondok-900 text-pondok-50',
-        'mt-0' => request()->routeIs('download.*', 'galeri.index', 'home'),
-        'mt-12 sm:mt-16 md:mt-20' => ! request()->routeIs('download.*', 'galeri.index', 'home'),
+        'mt-0' => request()->routeIs('download.*', 'galeri.index'),
+        'mt-12 sm:mt-16 md:mt-20' => ! request()->routeIs('download.*', 'galeri.index'),
     ])>
         <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:gap-10 sm:py-12 md:grid-cols-4">
             <div class="md:col-span-2">

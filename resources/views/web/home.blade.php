@@ -138,41 +138,5 @@
         </div>
     </section>
 
-    {{-- Penerimaan Santri Baru --}}
-    <section class="bg-pondok-950">
-        <div class="mx-auto max-w-6xl px-4 py-12 sm:py-16 md:py-20">
-            <div class="overflow-hidden rounded-xl border border-white/10 sm:rounded-2xl lg:grid lg:grid-cols-5">
-                <div class="order-2 bg-pondok-900 px-5 py-8 text-white sm:px-8 sm:py-10 md:px-10 md:py-12 lg:order-1 lg:col-span-3">
-                    <h2 class="break-words-safe font-display text-2xl font-semibold leading-snug tracking-wide sm:text-3xl md:text-4xl">
-                        {{ $admissionTitle }}
-                    </h2>
-                    <p class="mt-4 max-w-xl text-sm leading-relaxed text-pondok-100/80 md:text-base">
-                        {{ $admissionText }}
-                    </p>
-                    <div class="pondok-cta-stack mt-7 sm:mt-8">
-                        <a href="{{ route('kontak') }}" class="inline-flex rounded-lg bg-white px-5 py-3 text-sm font-semibold text-pondok-900 hover:bg-pondok-50">
-                            Daftar Sekarang
-                        </a>
-                        <a href="{{ route('download.index') }}" class="inline-flex rounded-lg border border-white/40 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
-                            Alur Pendaftaran
-                        </a>
-                    </div>
-                </div>
-                <div class="relative order-1 min-h-48 bg-stone-300 sm:min-h-64 lg:order-2 lg:col-span-2 lg:min-h-full">
-                    @if ($admissionPhoto)
-                        <img
-                            src="{{ str_starts_with($admissionPhoto, 'http') ? $admissionPhoto : asset('storage/'.$admissionPhoto) }}"
-                            alt="Pengasuh pondok"
-                            class="absolute inset-0 h-full w-full object-cover"
-                        >
-                    @else
-                        <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-pondok-800 to-pondok-950 text-sm text-white/70">
-                            Foto pengasuh
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-        <div class="border-t border-white/10"></div>
-    </section>
+    {{-- Penerimaan / pendaftaran santri disembunyikan sementara (belum dibuka). --}}
 @endsection

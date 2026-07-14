@@ -43,5 +43,14 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['layouts.web', 'layouts.admin', 'web.*', 'errors.*'], function ($view) {
             $view->with('settings', app(SettingService::class)->all());
         });
+
+        view()->composer('layouts.admin', function ($view) {
+            $view->with(
+                'unreadContactsCount',
+                auth()->check()
+                    ? ContactMessage::query()->where('is_read', false)->count()
+                    : 0
+            );
+        });
     }
 }
