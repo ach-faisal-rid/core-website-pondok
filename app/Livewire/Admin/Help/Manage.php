@@ -65,7 +65,7 @@ class Manage extends Component
 
         return view('livewire.admin.help.manage', [
             'articles' => $articles,
-            'categories' => HelpCategory::cases(),
+            'categories' => HelpCategory::ordered(),
         ]);
     }
 }

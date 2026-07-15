@@ -6,11 +6,11 @@ enum HelpCategory: string
 {
     case Umum = 'umum';
     case Dashboard = 'dashboard';
-    case Pengaturan = 'pengaturan';
-    case Konten = 'konten';
+    case Website = 'website';
+    case Halaman = 'halaman';
     case Artikel = 'artikel';
     case Galeri = 'galeri';
-    case Download = 'download';
+    case Unduhan = 'unduhan';
     case Kontak = 'kontak';
     case Pengguna = 'pengguna';
 
@@ -19,11 +19,11 @@ enum HelpCategory: string
         return match ($this) {
             self::Umum => 'Umum',
             self::Dashboard => 'Dashboard',
-            self::Pengaturan => 'Pengaturan',
-            self::Konten => 'Konten',
+            self::Website => 'Website',
+            self::Halaman => 'Halaman',
             self::Artikel => 'Artikel',
             self::Galeri => 'Galeri',
-            self::Download => 'Download',
+            self::Unduhan => 'Unduhan',
             self::Kontak => 'Pesan Kontak',
             self::Pengguna => 'Pengguna',
         };
@@ -35,11 +35,11 @@ enum HelpCategory: string
         return [
             self::Umum,
             self::Dashboard,
-            self::Pengaturan,
-            self::Konten,
+            self::Website,
+            self::Halaman,
             self::Artikel,
             self::Galeri,
-            self::Download,
+            self::Unduhan,
             self::Kontak,
             self::Pengguna,
         ];

@@ -74,7 +74,7 @@ class Form extends Component
     public function render()
     {
         return view('livewire.admin.help.form', [
-            'categories' => HelpCategory::cases(),
+            'categories' => HelpCategory::ordered(),
         ]);
     }
 }

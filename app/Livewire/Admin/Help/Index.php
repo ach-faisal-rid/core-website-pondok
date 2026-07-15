@@ -51,6 +51,7 @@ class Index extends Component
         return view('livewire.admin.help.index', [
             'grouped' => $grouped,
             'categories' => HelpCategory::cases(),
+            'totalTopics' => $articles->flatten()->count(),
         ]);
     }
 }
