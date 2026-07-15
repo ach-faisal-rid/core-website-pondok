@@ -22,18 +22,27 @@ class ProfileController extends Controller
         $founderImage = $settings->get('profil_founder_photo')
             ?: $sejarah?->thumbnail;
 
-        $pengasuh = collect(config('pondok.profil.pengasuh', []))
-            ->map(function (array $item, int $index) use ($settings) {
-                $n = $index + 1;
-
+        $pengasuh = collect([1, 2])
+            ->map(function (int $n) use ($settings) {
                 return [
-                    'name' => $settings->get("pengasuh_{$n}_name") ?: ($item['name'] ?? ''),
-                    'title' => $settings->get("pengasuh_{$n}_title") ?: ($item['title'] ?? ''),
+                    'name' => $settings->get("pengasuh_{$n}_name") ?: '',
+                    'title' => $settings->get("pengasuh_{$n}_title") ?: '',
                     'photo' => $settings->get("pengasuh_{$n}_photo"),
                 ];
             })
             ->filter(fn (array $item) => filled($item['name']))
             ->values();
+
+        if ($pengasuh->isEmpty()) {
+            $pengasuh = collect(config('pondok.profil.pengasuh', []))
+                ->map(fn (array $item) => [
+                    'name' => $item['name'] ?? '',
+                    'title' => $item['title'] ?? '',
+                    'photo' => null,
+                ])
+                ->filter(fn (array $item) => filled($item['name']))
+                ->values();
+        }
 
         return view('web.profil.index', [
             'sejarah' => $sejarah,
@@ -43,8 +52,11 @@ class ProfileController extends Controller
             'heroImage' => $heroImage,
             'founderImage' => $founderImage,
             'visi' => $settings->get('profil_visi') ?: config('pondok.profil.visi'),
-            'misi' => $this->misiItems($settings, $visiMisi),
-            'pancaJiwa' => config('pondok.profil.panca_jiwa'),
+            'misi' => $this->misiItems($settings),
+            'motto' => $settings->get('profil_motto'),
+            'nilai' => $settings->get('profil_nilai'),
+            'pancaJiwa' => $settings->json('profil_panca_jiwa', config('pondok.profil.panca_jiwa', [])),
+            'pancaSectionTitle' => $settings->get('panca_section_title') ?: 'Panca Jiwa Pondok',
             'pengasuh' => $pengasuh,
             'heroSubtitle' => $settings->get('profil_hero_subtitle')
                 ?: config('pondok.profil.hero_subtitle'),
@@ -55,15 +67,12 @@ class ProfileController extends Controller
     /**
      * @return list<string>
      */
-    private function misiItems(SettingService $settings, ?Content $visiMisi): array
+    private function misiItems(SettingService $settings): array
     {
-        $fromSetting = $settings->get('profil_misi');
+        $fromSetting = $settings->json('profil_misi', []);
 
-        if (is_string($fromSetting) && filled($fromSetting)) {
-            $decoded = json_decode($fromSetting, true);
-            if (is_array($decoded) && $decoded !== []) {
-                return array_values(array_filter(array_map('strval', $decoded)));
-            }
+        if ($fromSetting !== []) {
+            return array_values(array_filter(array_map('strval', $fromSetting)));
         }
 
         return config('pondok.profil.misi', []);

@@ -22,20 +22,23 @@ class HomeController extends Controller
         $heroImage = $settings->get('home_hero')
             ?: $settings->get('profil_hero');
 
-        $admissionPhoto = $settings->get('home_admission_photo')
-            ?: $settings->get('pengasuh_1_photo')
-            ?: $settings->get('profil_founder_photo');
+        $stats = $settings->json('home_stats', config('pondok.home.stats', []));
+        $pancaJiwa = $settings->json('profil_panca_jiwa', config('pondok.profil.panca_jiwa', []));
 
         return view('web.home', [
             'latestArticles' => $latestArticles,
             'heroImage' => $heroImage,
-            'admissionPhoto' => $admissionPhoto,
             'heroTitle' => $settings->get('home_hero_title') ?: config('pondok.home.hero_title'),
             'heroSubtitle' => $settings->get('home_hero_subtitle') ?: config('pondok.home.hero_subtitle'),
-            'stats' => config('pondok.home.stats'),
-            'pancaJiwa' => config('pondok.profil.panca_jiwa'),
-            'admissionTitle' => $settings->get('home_admission_title') ?: config('pondok.home.admission_title'),
-            'admissionText' => $settings->get('home_admission_text') ?: config('pondok.home.admission_text'),
+            'cta1Label' => $settings->get('home_cta1_label') ?: 'Jelajahi Profil',
+            'cta1Url' => $settings->get('home_cta1_url') ?: route('profil.index'),
+            'cta2Label' => $settings->get('home_cta2_label') ?: 'Hubungi Kami',
+            'cta2Url' => $settings->get('home_cta2_url') ?: route('kontak'),
+            'stats' => $stats,
+            'pancaJiwa' => $pancaJiwa,
+            'pancaSectionTitle' => $settings->get('panca_section_title') ?: 'Panca Jiwa Pondok',
+            'pancaIntro' => $settings->get('home_panca_intro')
+                ?: 'Lima nilai yang menjadi napas kehidupan santri dalam belajar, berkarya, dan berkhidmat.',
             'siteName' => $settings->get('site_name', config('app.name')),
         ]);
     }

@@ -13,7 +13,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
-#[Title('Download')]
+#[Title('Unduhan')]
 class Index extends Component
 {
     use WithToast;

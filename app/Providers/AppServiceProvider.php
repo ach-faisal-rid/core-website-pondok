@@ -8,6 +8,7 @@ use App\Models\ContactMessage;
 use App\Models\Content;
 use App\Models\Download;
 use App\Models\HelpArticle;
+use App\Models\OrganizationMember;
 use App\Models\Setting;
 use App\Models\User;
 use App\Policies\AlbumPolicy;
@@ -16,6 +17,7 @@ use App\Policies\ContactMessagePolicy;
 use App\Policies\ContentPolicy;
 use App\Policies\DownloadPolicy;
 use App\Policies\HelpArticlePolicy;
+use App\Policies\OrganizationMemberPolicy;
 use App\Policies\SettingPolicy;
 use App\Policies\UserPolicy;
 use App\Services\SettingService;
@@ -33,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::policy(HelpArticle::class, HelpArticlePolicy::class);
         Gate::policy(Setting::class, SettingPolicy::class);
+        Gate::policy(OrganizationMember::class, OrganizationMemberPolicy::class);
         Gate::policy(Content::class, ContentPolicy::class);
         Gate::policy(Article::class, ArticlePolicy::class);
         Gate::policy(Album::class, AlbumPolicy::class);
@@ -40,8 +43,20 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(ContactMessage::class, ContactMessagePolicy::class);
         Gate::policy(User::class, UserPolicy::class);
 
-        view()->composer(['layouts.web', 'layouts.admin', 'web.*', 'errors.*'], function ($view) {
-            $view->with('settings', app(SettingService::class)->all());
+        view()->composer(['layouts.web', 'layouts.admin', 'layouts.guest', 'web.*', 'errors.*'], function ($view) {
+            $settingsService = app(SettingService::class);
+            $view->with('settings', $settingsService->all());
+        });
+
+        view()->composer('layouts.web', function ($view) {
+            $view->with('websiteNav', app(SettingService::class)->json('website_nav', [
+                ['label' => 'Beranda', 'url' => '/'],
+                ['label' => 'Profil', 'url' => '/profil'],
+                ['label' => 'Berita', 'url' => '/artikel'],
+                ['label' => 'Galeri', 'url' => '/galeri'],
+                ['label' => 'Download', 'url' => '/download'],
+                ['label' => 'Kontak', 'url' => '/kontak'],
+            ]));
         });
 
         view()->composer('layouts.admin', function ($view) {

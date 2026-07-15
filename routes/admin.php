@@ -14,15 +14,39 @@ use App\Livewire\Admin\Help\Index as HelpIndex;
 use App\Livewire\Admin\Help\Manage as HelpManage;
 use App\Livewire\Admin\Downloads\Form as DownloadForm;
 use App\Livewire\Admin\Downloads\Index as DownloadIndex;
-use App\Livewire\Admin\Settings\Form as SettingsForm;
 use App\Livewire\Admin\Users\Form as UserForm;
 use App\Livewire\Admin\Users\Index as UserIndex;
+use App\Livewire\Admin\Website\Footer as WebsiteFooter;
+use App\Livewire\Admin\Website\Hero as WebsiteHero;
+use App\Livewire\Admin\Website\Navigasi as WebsiteNavigasi;
+use App\Livewire\Admin\Website\PancaJiwa as WebsitePancaJiwa;
+use App\Livewire\Admin\Website\Pengasuh as WebsitePengasuh;
+use App\Livewire\Admin\Website\Seo as WebsiteSeo;
+use App\Livewire\Admin\Website\Statistik as WebsiteStatistik;
+use App\Livewire\Admin\Website\Struktur as WebsiteStruktur;
+use App\Livewire\Admin\Website\Tema as WebsiteTema;
+use App\Livewire\Admin\Website\Tentang as WebsiteTentang;
+use App\Livewire\Admin\Website\VisiMisi as WebsiteVisiMisi;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', Dashboard::class)->name('dashboard');
 
-    Route::get('/settings', SettingsForm::class)->name('settings')->middleware('role:admin');
+    Route::redirect('/settings', '/admin/website/tema')->name('settings');
+
+    Route::middleware('role:admin')->prefix('website')->name('website.')->group(function () {
+        Route::get('/hero', WebsiteHero::class)->name('hero');
+        Route::get('/tentang', WebsiteTentang::class)->name('tentang');
+        Route::get('/pengasuh', WebsitePengasuh::class)->name('pengasuh');
+        Route::get('/visi-misi', WebsiteVisiMisi::class)->name('visi-misi');
+        Route::get('/panca-jiwa', WebsitePancaJiwa::class)->name('panca-jiwa');
+        Route::get('/struktur', WebsiteStruktur::class)->name('struktur');
+        Route::get('/statistik', WebsiteStatistik::class)->name('statistik');
+        Route::get('/navigasi', WebsiteNavigasi::class)->name('navigasi');
+        Route::get('/footer', WebsiteFooter::class)->name('footer');
+        Route::get('/seo', WebsiteSeo::class)->name('seo');
+        Route::get('/tema', WebsiteTema::class)->name('tema');
+    });
 
     Route::get('/contents', ContentIndex::class)->name('contents.index');
     Route::get('/contents/create', ContentForm::class)->name('contents.create');

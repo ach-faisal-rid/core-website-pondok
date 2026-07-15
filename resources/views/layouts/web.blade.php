@@ -29,12 +29,10 @@
             </a>
 
             <nav class="hidden items-center gap-5 text-[15px] text-stone-600 lg:flex xl:gap-7">
-                <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Beranda</a>
-                <a href="{{ route('profil.index') }}" class="{{ request()->routeIs('profil.*') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Profil</a>
-                <a href="{{ route('artikel.index') }}" class="{{ request()->routeIs('artikel.*') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Berita</a>
-                <a href="{{ route('galeri.index') }}" class="{{ request()->routeIs('galeri.*') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Galeri</a>
-                <a href="{{ route('download.index') }}" class="{{ request()->routeIs('download.*') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Download</a>
-                <a href="{{ route('kontak') }}" class="{{ request()->routeIs('kontak') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">Kontak</a>
+                @foreach ($websiteNav ?? [] as $item)
+                    @php $href = $item['url'] ?? '#'; @endphp
+                    <a href="{{ $href }}" class="{{ request()->is(ltrim($href, '/') ?: '/') ? 'font-semibold text-pondok-900 underline decoration-2 underline-offset-8' : 'hover:text-pondok-800' }}">{{ $item['label'] ?? '' }}</a>
+                @endforeach
             </nav>
 
             {{-- Menu mobile --}}
@@ -44,12 +42,9 @@
                         Menu
                     </summary>
                     <div class="absolute right-0 z-50 mt-2 w-48 rounded-xl border border-[var(--pondok-line)] bg-white p-2 shadow-lg">
-                        <a href="{{ route('home') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Beranda</a>
-                        <a href="{{ route('profil.index') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Profil</a>
-                        <a href="{{ route('artikel.index') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Berita</a>
-                        <a href="{{ route('galeri.index') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Galeri</a>
-                        <a href="{{ route('download.index') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Download</a>
-                        <a href="{{ route('kontak') }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">Kontak</a>
+                        @foreach ($websiteNav ?? [] as $item)
+                            <a href="{{ $item['url'] ?? '#' }}" class="block rounded-lg px-3 py-2 text-sm hover:bg-pondok-50">{{ $item['label'] ?? '' }}</a>
+                        @endforeach
                     </div>
                 </details>
 
@@ -81,12 +76,9 @@
             <div>
                 <p class="text-sm font-semibold uppercase tracking-wider text-pondok-100/70">Tautan</p>
                 <div class="mt-3 grid grid-cols-2 gap-2 text-sm sm:block sm:space-y-2">
-                    <a href="{{ route('home') }}" class="block hover:text-white">Beranda</a>
-                    <a href="{{ route('profil.index') }}" class="block hover:text-white">Profil</a>
-                    <a href="{{ route('artikel.index') }}" class="block hover:text-white">Berita</a>
-                    <a href="{{ route('galeri.index') }}" class="block hover:text-white">Galeri</a>
-                    <a href="{{ route('download.index') }}" class="block hover:text-white">Download</a>
-                    <a href="{{ route('kontak') }}" class="block hover:text-white">Kontak</a>
+                    @foreach ($websiteNav ?? [] as $item)
+                        <a href="{{ $item['url'] ?? '#' }}" class="block hover:text-white">{{ $item['label'] ?? '' }}</a>
+                    @endforeach
                 </div>
             </div>
             <div>

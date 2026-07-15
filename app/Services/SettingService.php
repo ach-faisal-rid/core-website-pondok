@@ -21,11 +21,33 @@ class SettingService
         return $this->all()[$key] ?? $default;
     }
 
+    /**
+     * @param  array<int, mixed>  $default
+     * @return array<int, mixed>
+     */
+    public function json(string $key, array $default = []): array
+    {
+        $value = $this->get($key);
+
+        if (is_array($value)) {
+            return $value;
+        }
+
+        if (is_string($value) && filled($value)) {
+            $decoded = json_decode($value, true);
+            if (is_array($decoded)) {
+                return $decoded;
+            }
+        }
+
+        return $default;
+    }
+
     public function set(string $key, mixed $value, string $group = 'general'): void
     {
         Setting::query()->updateOrCreate(
             ['key' => $key],
-            ['value' => $value, 'group' => $group]
+            ['value' => is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value, 'group' => $group]
         );
 
         $this->forget();
@@ -36,7 +58,10 @@ class SettingService
         foreach ($items as $key => $value) {
             Setting::query()->updateOrCreate(
                 ['key' => $key],
-                ['value' => $value, 'group' => $group]
+                [
+                    'value' => is_array($value) ? json_encode($value, JSON_UNESCAPED_UNICODE) : $value,
+                    'group' => $group,
+                ]
             );
         }
 

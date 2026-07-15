@@ -109,6 +109,23 @@
                     </ol>
                 </div>
             </div>
+
+            @if (filled($motto) || filled($nilai))
+                <div class="mx-auto mt-8 max-w-3xl space-y-6 text-center sm:mt-10">
+                    @if (filled($motto))
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-pondok-800">Motto</p>
+                            <p class="mt-2 font-display text-xl italic text-pondok-900 sm:text-2xl">“{{ $motto }}”</p>
+                        </div>
+                    @endif
+                    @if (filled($nilai))
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-pondok-800">Nilai Pondok</p>
+                            <p class="mt-2 text-sm leading-relaxed text-[var(--pondok-muted)] sm:text-base">{{ $nilai }}</p>
+                        </div>
+                    @endif
+                </div>
+            @endif
         </div>
     </section>
 
@@ -117,7 +134,7 @@
         <div class="mx-auto max-w-6xl pondok-section">
             <div class="text-center">
                 <h2 class="break-words-safe font-display text-3xl font-semibold tracking-wide text-emerald-300 sm:text-4xl md:text-5xl">
-                    Panca Jiwa Pondok
+                    {{ $pancaSectionTitle }}
                 </h2>
                 <p class="mx-auto mt-4 max-w-2xl text-sm text-white/75 md:text-base">
                     Lima nilai yang menjadi napas kehidupan santri dalam belajar dan berkhidmat.

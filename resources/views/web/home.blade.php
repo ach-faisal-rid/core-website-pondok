@@ -26,12 +26,16 @@
                 {{ $heroSubtitle }}
             </p>
             <div class="pondok-cta-stack mt-7 sm:mt-9">
-                <a href="{{ route('profil.index') }}" class="inline-flex rounded-lg bg-white px-6 py-3 text-sm font-semibold text-pondok-900 hover:bg-pondok-50">
-                    Jelajahi Profil
-                </a>
-                <a href="{{ route('kontak') }}" class="inline-flex rounded-lg border border-white/50 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
-                    Hubungi Kami
-                </a>
+                @if (filled($cta1Label))
+                    <a href="{{ $cta1Url }}" class="inline-flex rounded-lg bg-white px-6 py-3 text-sm font-semibold text-pondok-900 hover:bg-pondok-50">
+                        {{ $cta1Label }}
+                    </a>
+                @endif
+                @if (filled($cta2Label))
+                    <a href="{{ $cta2Url }}" class="inline-flex rounded-lg border border-white/50 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">
+                        {{ $cta2Label }}
+                    </a>
+                @endif
             </div>
         </div>
     </section>
@@ -52,11 +56,13 @@
     <section class="bg-white">
         <div class="mx-auto max-w-6xl pondok-section">
             <div class="mx-auto max-w-2xl text-center">
-                <h2 class="pondok-section-title">Panca Jiwa Pondok</h2>
+                <h2 class="pondok-section-title">{{ $pancaSectionTitle }}</h2>
                 <div class="mx-auto mt-4 h-px w-16 bg-pondok-800"></div>
-                <p class="pondok-lead mx-auto">
-                    Lima nilai yang menjadi napas kehidupan santri dalam belajar, berkarya, dan berkhidmat.
-                </p>
+                @if (filled($pancaIntro))
+                    <p class="pondok-lead mx-auto">
+                        {{ $pancaIntro }}
+                    </p>
+                @endif
             </div>
 
             <div class="mt-10 grid gap-4 sm:mt-12 sm:grid-cols-2 lg:grid-cols-5">

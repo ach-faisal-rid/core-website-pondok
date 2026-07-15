@@ -48,6 +48,12 @@ class Index extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(10);
 
-        return view('livewire.admin.articles.index', compact('articles'));
+        $stats = [
+            'total' => Article::query()->count(),
+            'draft' => Article::query()->where('status', \App\Enums\PublishStatus::Draft)->count(),
+            'published' => Article::query()->where('status', \App\Enums\PublishStatus::Published)->count(),
+        ];
+
+        return view('livewire.admin.articles.index', compact('articles', 'stats'));
     }
 }

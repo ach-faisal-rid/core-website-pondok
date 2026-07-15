@@ -68,7 +68,34 @@ class DatabaseSeeder extends Seeder
             );
         }
 
-        app(SettingService::class)->forget();
+        $settingService = app(SettingService::class);
+        $settingService->forget();
+        $settingService->setMany([
+            'home_hero_title' => config('pondok.home.hero_title'),
+            'home_hero_subtitle' => config('pondok.home.hero_subtitle'),
+            'home_cta1_label' => 'Jelajahi Profil',
+            'home_cta1_url' => '/profil',
+            'home_cta2_label' => 'Hubungi Kami',
+            'home_cta2_url' => '/kontak',
+            'home_panca_intro' => 'Lima nilai yang menjadi napas kehidupan santri dalam belajar, berkarya, dan berkhidmat.',
+            'home_stats' => [
+                ['value' => '1000+', 'label' => 'Santri Aktif', 'icon' => 'users'],
+                ['value' => '40+ Tahun', 'label' => 'Pengabdian Pendidikan', 'icon' => 'calendar'],
+                ['value' => '10+ Cabang', 'label' => 'Di Seluruh Indonesia', 'icon' => 'building'],
+            ],
+        ], 'home');
+
+        $settingService->setMany([
+            'profil_visi' => config('pondok.profil.visi'),
+            'profil_misi' => config('pondok.profil.misi'),
+            'profil_motto' => 'Berilmu, beradab, dan bermanfaat.',
+            'profil_nilai' => 'Nilai pondok dijaga melalui adab, keikhlasan, dan keteladanan dalam belajar serta berkhidmat.',
+            'panca_section_title' => 'Panca Jiwa Pondok',
+            'profil_panca_jiwa' => config('pondok.profil.panca_jiwa'),
+            'profil_hero_subtitle' => config('pondok.profil.hero_subtitle'),
+        ], 'profil');
+
+        $settingService->forget();
 
         foreach (['Akademik', 'Kegiatan', 'Prestasi', 'Opini'] as $categoryName) {
             Category::query()->updateOrCreate(

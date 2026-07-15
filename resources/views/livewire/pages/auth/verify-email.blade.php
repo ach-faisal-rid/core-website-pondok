@@ -4,13 +4,11 @@ use App\Livewire\Actions\Logout;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new #[Layout('layouts.guest')] class extends Component
+new #[Layout('layouts.guest')] #[Title('Verifikasi Email')] class extends Component
 {
-    /**
-     * Send an email verification notification to the user.
-     */
     public function sendVerification(): void
     {
         if (Auth::user()->hasVerifiedEmail()) {
@@ -24,9 +22,6 @@ new #[Layout('layouts.guest')] class extends Component
         Session::flash('status', 'verification-link-sent');
     }
 
-    /**
-     * Log the current user out of the application.
-     */
     public function logout(Logout $logout): void
     {
         $logout();
@@ -36,23 +31,27 @@ new #[Layout('layouts.guest')] class extends Component
 }; ?>
 
 <div>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+    <div class="mb-8">
+        <h2 class="font-display text-3xl font-semibold tracking-wide text-pondok-900">Verifikasi email</h2>
+        <p class="mt-2 text-sm leading-relaxed text-[var(--pondok-muted)]">
+            Terima kasih. Sebelum mulai, verifikasi alamat email Anda melalui tautan yang kami kirim.
+            Jika belum menerima email, kami dapat mengirim ulang.
+        </p>
     </div>
 
     @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
+        <div class="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-800">
+            Tautan verifikasi baru telah dikirim ke email Anda.
         </div>
     @endif
 
-    <div class="mt-4 flex items-center justify-between">
-        <x-primary-button wire:click="sendVerification">
-            {{ __('Resend Verification Email') }}
-        </x-primary-button>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <button type="button" wire:click="sendVerification" class="admin-btn-primary">
+            Kirim ulang email verifikasi
+        </button>
 
-        <button wire:click="logout" type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {{ __('Log Out') }}
+        <button type="button" wire:click="logout" class="text-sm font-medium text-pondok-800 hover:underline">
+            Keluar
         </button>
     </div>
 </div>

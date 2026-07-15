@@ -12,8 +12,8 @@ enum PublishStatus: string
     {
         return match ($this) {
             self::Draft => 'Draft',
-            self::Published => 'Published',
-            self::Scheduled => 'Scheduled',
+            self::Published => 'Terbit',
+            self::Scheduled => 'Dijadwalkan',
         };
     }
 }
