@@ -13,7 +13,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 
 #[Layout('layouts.admin')]
-#[Title('Tema')]
+#[Title('Tema & Favicon')]
 class Tema extends Component
 {
     use AuthorizesWebsiteAdmin;
@@ -40,8 +40,61 @@ class Tema extends Component
         $this->site_name = (string) $settings->get('site_name', config('app.name'));
         $this->theme_primary = (string) $settings->get('theme_primary', '#134535');
         $this->theme_secondary = (string) $settings->get('theme_secondary', '#1f6b4f');
-        $this->logo_path = $settings->get('logo');
-        $this->favicon_path = $settings->get('favicon');
+        $this->logo_path = $this->existingMediaPath($settings->get('logo'));
+        $this->favicon_path = $this->existingMediaPath($settings->get('favicon'));
+    }
+
+    protected function existingMediaPath(mixed $path): ?string
+    {
+        $path = is_string($path) ? trim($path) : '';
+
+        if ($path === '' || ! Storage::disk('public')->exists($path)) {
+            return null;
+        }
+
+        return $path;
+    }
+
+    protected function previewUrl(mixed $upload, ?string $storedPath): ?string
+    {
+        if ($upload) {
+            try {
+                return $upload->temporaryUrl();
+            } catch (\Throwable) {
+                // Local disk may not support temporaryUrl in some setups.
+            }
+        }
+
+        if (filled($storedPath) && Storage::disk('public')->exists($storedPath)) {
+            // Path relatif agar tidak tergantung APP_URL (localhost vs 127.0.0.1).
+            return '/storage/'.ltrim($storedPath, '/');
+        }
+
+        return null;
+    }
+
+    public function removeLogo(): void
+    {
+        $this->authorize('update', \App\Models\Setting::class);
+        if ($this->logo_path) {
+            app(UploadMediaAction::class)->delete($this->logo_path);
+        }
+        $this->logo_path = null;
+        $this->logo = null;
+        app(SettingService::class)->set('logo', '', 'theme');
+        $this->toastSuccess('Logo dihapus.');
+    }
+
+    public function removeFavicon(): void
+    {
+        $this->authorize('update', \App\Models\Setting::class);
+        if ($this->favicon_path) {
+            app(UploadMediaAction::class)->delete($this->favicon_path);
+        }
+        $this->favicon_path = null;
+        $this->favicon = null;
+        app(SettingService::class)->set('favicon', '', 'theme');
+        $this->toastSuccess('Favicon dihapus.');
     }
 
     public function save(SettingService $settings, UploadMediaAction $upload): void
@@ -52,21 +105,35 @@ class Tema extends Component
             'theme_primary' => ['nullable', 'string', 'max:20'],
             'theme_secondary' => ['nullable', 'string', 'max:20'],
             'logo' => ['nullable', 'image', 'max:2048'],
-            'favicon' => ['nullable', 'image', 'max:1024'],
+            'favicon' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp,ico', 'max:1024'],
         ]);
 
-        $this->logo_path = $this->storeUpload($upload, $this->logo, $this->logo_path, 'settings');
-        $this->logo = null;
-        $this->favicon_path = $this->storeUpload($upload, $this->favicon, $this->favicon_path, 'settings');
-        $this->favicon = null;
+        if ($this->logo) {
+            $this->logo_path = $this->storeUpload($upload, $this->logo, $this->logo_path, 'settings');
+            $this->logo = null;
+        }
 
-        $settings->setMany([
+        if ($this->favicon) {
+            $this->favicon_path = $this->storeUpload($upload, $this->favicon, $this->favicon_path, 'settings');
+            $this->favicon = null;
+        }
+
+        // Jangan timpa path media dengan null saat hanya mengubah teks/warna.
+        $payload = [
             'site_name' => $this->site_name,
-            'logo' => $this->logo_path,
-            'favicon' => $this->favicon_path,
             'theme_primary' => $this->theme_primary,
             'theme_secondary' => $this->theme_secondary,
-        ], 'theme');
+        ];
+
+        if ($this->logo_path !== null) {
+            $payload['logo'] = $this->logo_path;
+        }
+
+        if ($this->favicon_path !== null) {
+            $payload['favicon'] = $this->favicon_path;
+        }
+
+        $settings->setMany($payload, 'theme');
 
         $this->toastSuccess('Tema berhasil disimpan.');
     }
@@ -74,8 +141,8 @@ class Tema extends Component
     public function render()
     {
         return view('livewire.admin.website.tema', [
-            'logoUrl' => $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null,
-            'faviconUrl' => $this->favicon_path ? Storage::disk('public')->url($this->favicon_path) : null,
+            'logoUrl' => $this->previewUrl($this->logo, $this->logo_path),
+            'faviconUrl' => $this->previewUrl($this->favicon, $this->favicon_path),
         ]);
     }
 }

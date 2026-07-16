@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Admin' }} &mdash; {{ $settings['site_name'] ?? config('app.name') }}</title>
+    @if (! empty($settings['favicon']))
+        <link rel="icon" href="/storage/{{ ltrim($settings['favicon'], '/') }}?v={{ md5($settings['favicon']) }}">
+    @endif
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=cormorant-garamond:500,600,700|plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -76,7 +79,7 @@
                                 'navigasi' => 'Navigasi',
                                 'footer' => 'Footer',
                                 'seo' => 'SEO',
-                                'tema' => 'Tema',
+                                'tema' => 'Tema & Favicon',
                             ] as $route => $label)
                                 <a
                                     href="{{ route('admin.website.'.$route) }}"

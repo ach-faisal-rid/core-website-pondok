@@ -9,8 +9,8 @@
     <meta property="og:title" content="@yield('seo_title', $settings['seo_title'] ?? ($settings['site_name'] ?? config('app.name')))">
     <meta property="og:description" content="@yield('seo_description', $settings['seo_description'] ?? '')">
     <meta property="og:type" content="website">
-    @if (!empty($settings['favicon']))
-        <link rel="icon" href="{{ asset('storage/'.$settings['favicon']) }}">
+    @if (! empty($settings['favicon']))
+        <link rel="icon" href="/storage/{{ ltrim($settings['favicon'], '/') }}?v={{ md5($settings['favicon']) }}">
     @endif
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=cormorant-garamond:400,500,600,700|plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
@@ -22,7 +22,7 @@
         <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
             <a href="{{ route('home') }}" class="min-w-0 max-w-[48%] truncate font-display text-xl font-semibold tracking-wide text-pondok-900 sm:max-w-none sm:text-2xl md:text-[1.65rem]">
                 @if (!empty($settings['logo']))
-                    <img src="{{ asset('storage/'.$settings['logo']) }}" alt="{{ $settings['site_name'] ?? 'Logo' }}" class="h-9 w-auto sm:h-10">
+                    <img src="/storage/{{ ltrim($settings['logo'], '/') }}" alt="{{ $settings['site_name'] ?? 'Logo' }}" class="h-9 w-auto sm:h-10">
                 @else
                     {{ $settings['site_name'] ?? 'Pondok Pesantren' }}
                 @endif

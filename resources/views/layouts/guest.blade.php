@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title ?? 'Masuk' }} &mdash; {{ $settings['site_name'] ?? config('app.name') }}</title>
-    @if (!empty($settings['favicon']))
-        <link rel="icon" href="{{ asset('storage/'.$settings['favicon']) }}">
+    @if (! empty($settings['favicon']))
+        <link rel="icon" href="/storage/{{ ltrim($settings['favicon'], '/') }}?v={{ md5($settings['favicon']) }}">
     @endif
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=cormorant-garamond:500,600,700|plus-jakarta-sans:400,500,600,700&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
                 <div>
                     <a href="{{ route('home') }}" class="inline-flex items-center gap-3">
                         @if (!empty($settings['logo']))
-                            <img src="{{ asset('storage/'.$settings['logo']) }}" alt="{{ $settings['site_name'] ?? 'Logo' }}" class="h-10 w-auto brightness-0 invert">
+                            <img src="/storage/{{ ltrim($settings['logo'], '/') }}" alt="{{ $settings['site_name'] ?? 'Logo' }}" class="h-10 w-auto brightness-0 invert">
                         @else
                             <span class="font-display text-2xl font-semibold tracking-wide">
                                 {{ $settings['site_name'] ?? 'Pesantren Digital' }}
@@ -78,7 +78,7 @@
                     <div class="mb-8 lg:hidden">
                         <a href="{{ route('home') }}" class="inline-flex items-center gap-2">
                             @if (!empty($settings['logo']))
-                                <img src="{{ asset('storage/'.$settings['logo']) }}" alt="" class="h-9 w-auto">
+                                <img src="/storage/{{ ltrim($settings['logo'], '/') }}" alt="" class="h-9 w-auto">
                             @else
                                 <span class="font-display text-2xl font-semibold text-pondok-900">
                                     {{ $settings['site_name'] ?? 'Pesantren Digital' }}

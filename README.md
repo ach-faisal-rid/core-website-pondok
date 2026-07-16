@@ -129,10 +129,12 @@ Route `/register` **tidak aktif** (registrasi publik dinonaktifkan).
 ## Perintah berguna
 
 ```bash
-# Migrasi + data awal (user, pengaturan, contoh bantuan)
+# Migrasi + data awal (user, website, struktur, bantuan)
 php artisan migrate --seed
 
-# Seed bantuan saja
+# Seed per bagian
+php artisan db:seed --class=WebsiteSettingsSeeder
+php artisan db:seed --class=OrganizationMemberSeeder
 php artisan db:seed --class=HelpArticleSeeder
 
 # Tes otomatis
